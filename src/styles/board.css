@@ -1,0 +1,32 @@
+.row {
+  display: flex;
+  text-align:center;
+  flex-direction:row;
+  padding: 5px;
+}
+
+.letter:hover {
+  cursor: pointer;
+}
+
+.letter {
+ width: 80px;
+ height: 80px;
+ border-radius: 5px;
+ background-color: #ffffff;
+ box-shadow: -4px 2px 8px 1px rgba(0,0,0,0.69);
+ flex:1 1 auto;
+ margin:5px;
+}
+
+.letter.selected {
+ background-color: #ACCEEC;
+}
+
+.letter span {
+ font-weight: bold;
+ display: block;
+ position: relative;
+ top: 50%;
+ transform: translateY(-50%);
+}
