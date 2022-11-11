@@ -3,7 +3,6 @@ import Letter from './Letter';
 import '../styles/board';
 
 export default function Board({ boardRow }) {
-  
   return (
     <div class="row">
       {boardRow.map((board, i) => {
