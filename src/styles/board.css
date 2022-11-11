@@ -1,5 +1,12 @@
+#boggle-container {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin: 0 auto;
+}
+
 #board {
-  border-radius: 25px;
+  border-radius: 35px;
   background-color: solid #dcdcdc;
   border: 8px solid #dcdcdc;
   box-shadow: 0px 3px 2px 1px rgba(0, 0, 0, 0.69);
@@ -23,7 +30,7 @@
 .letter {
   width: 80px;
   height: 80px;
-  border-radius: 25px;
+  border-radius: 30px;
   background-color: #ffffff;
   border: 2px solid #e0e0e0;
   box-shadow: 0px 3px 2px 1px rgba(0, 0, 0, 0.69);

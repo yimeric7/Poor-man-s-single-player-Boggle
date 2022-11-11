@@ -1,45 +1,69 @@
 import React, { useState, useEffect } from 'react';
 import Board from '../components/Board';
+import {
+  generateRandomBoard,
+  generatePossibleWords,
+} from '../backend/utils.js';
 
-const generateRandomBoard = (boardSize) => {
-  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  var randomBoard = [];
-  for (var i = 0; i < boardSize; i++) {
-    randomBoard.push([]);
-  }
+//fetch mini dictionary (for now; use axios & database later)
+var dictionary = [];
 
-  for (var i = 0; i < boardSize; i++) {
-    for (var j = 0; j < boardSize; j++) {
-      randomBoard[i][j] = letters.charAt(
-        Math.floor(Math.random() * letters.length)
-      );
-    }
-  }
-
-  return randomBoard;
-};
+fetch(
+  'https://raw.githubusercontent.com/marklogic-community/dictionaries/master/dictionaries/small-dictionary.json'
+)
+  .then((response) => response.json())
+  .then((data) => {
+    dictionary = data.words;
+  });
 
 export default function Game() {
   const boardSize = 4;
   const [randomBoard, setRandomBoard] = useState([[]]);
+  const [possibleWords, setPossibleWords] = useState([]);
+  const [showWords, setShowWords] = useState(false);
 
-  // Generate 4x4 Board on load
+  // Generate 4x4 Board & possible words on LOAD (possible words isn't working on load) ~ not sure how to fix; maybe doesn't appear until start game...?
   useEffect(() => {
-    setRandomBoard(generateRandomBoard(boardSize));
+    var tempRandBoard = generateRandomBoard(boardSize);
+    setPossibleWords(generatePossibleWords(tempRandBoard, dictionary));
+    setRandomBoard(tempRandBoard);
   }, []);
 
-  // Generate new 4x4 matrix of letters
-  const handleClick = () => {
-    setRandomBoard(generateRandomBoard(boardSize));
+  // Generate new 4x4 matrix of letters & possible words
+  const handleNewBoard = () => {
+    var tempRandBoard = generateRandomBoard(boardSize);
+    setPossibleWords(generatePossibleWords(tempRandBoard, dictionary));
+    setRandomBoard(tempRandBoard);
+    console.log(possibleWords);
   };
 
-  // Send this board off w/ API call to generate all possible words
+  // if game is in session, then possible words appear?
+  const handleStart = () => {};
+  const handleShow = () => {
+    // only available once game ends
+    setShowWords(true);
+  };
 
   return (
-    <>
+    <div style={{ margin: 'auto', textAlign: 'center' }}>
       <h1>Game Page</h1>
+      <h2>Possible Words: {possibleWords.length}</h2>
       <Board boardSize={boardSize} board={randomBoard} />
-      <button onClick={handleClick}>New Board</button>
-    </>
+      <br></br>
+      <button onClick={handleNewBoard}>New Board</button>
+      <br></br>
+      <button onClick={handleStart}>Start game</button>
+      <br></br>
+      <button onClick={handleShow}>Show words</button>
+      {showWords ? (
+        <div>
+          {possibleWords.map((word) => {
+            return <div>{word}</div>;
+          })}
+        </div>
+      ) : (
+        <></>
+      )}
+    </div>
   );
 }

@@ -4,7 +4,7 @@ import Game from './pages/Game';
 
 export default function App() {
   return (
-    <div>
+    <div id="boggle-container">
       <Game />
     </div>
   );
